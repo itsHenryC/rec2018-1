@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.13/vue-resource.min.js"></script>
+
+</head>
+<body>
+    <button class="btn btn-primary mt-1 ml-1" style="position:fixed" onclick="window.location.href='index.html'">Back</button>
+    <h1 class="text-center">Homeless Food Locator</h1>
+    <hr>
+    <div id="app">
+        <form @submit.prevent="submit" class="offset-3 form-group col-6">
+            <h3>Restaurant Name of Donator:</h3>
+            <input v-model="name" type="text" placeholder="e.g. McDonalds" class="form-control">
+            <br>
+            <h3>Address of Donation:</h3>
+            <input v-model="address" type="text" placeholder="e.g. 356 Yonge St" class="form-control">
+            <br>
+            <h3>Portions Donated:</h3>
+            <input v-model="portion" type="number" class="form-control" min="1" max="999999999" />
+            <br>
+            <button type="submit" class="btn btn-success btn-block">Submit</button>
+        </form>
+
+    </div>
+
+    <script>
+        const vueApp = new Vue({
+            el: '#app',
+            data: {
+                name: "",
+                address: "",
+                portion: 1
+
+            },
+            methods:{
+                submit: function(){
+
+
+                    var data = new FormData();
+                    data.append('0', '1');
+
+                    // console.log(data);
+                    this.$http.post("http://10.17.4.95:5000/addRestaurant?name="+this.name+"&address="+this.address, data);
+
+
+
+                    this.name = "";
+                    this.address = "";
+                    this.portion = 1;
+                }
+            }
+
+        })
+    </script>
+</body>
+</html>
