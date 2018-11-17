@@ -5,6 +5,7 @@
     <title>Title</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.13/vue-resource.min.js"></script>
 
 </head>
 <body>
@@ -20,16 +21,53 @@
         </div>
 
     </div>
+    <br>
 
 
     <script>
         const vueApp = new Vue({
             el: '#app',
             data: {
-                restaurants: ['Salad King','McDonalds'],
-                locations: ['1 Yonge St', '2 Yonge St'],
-                dates: ['11/16/2018', '11/16/2018']
+                restaurants: [],
+                locations: [],
+                dates: []
+            },
+            methods: {
+                getEverything: function() {
+                    this.$http.get("https://homelessfoodlocator.herokuapp.com/tier1")
+                        .then(response =>{
+                            for(var i = 0; i < response.data['names'].length; i++){
+
+                                this.restaurants.push(response.data['names'][i]);
+                                this.locations.push(response.data['locations'][i]);
+                                this.dates.push(response.data['dates'][i]);
+                            }
+                        });
+
+                    this.$http.get("https://homelessfoodlocator.herokuapp.com/tier2")
+                        .then(response =>{
+                            for(var i = 0; i < response.data['names'].length; i++){
+
+                                this.restaurants.push(response.data['names'][i]);
+                                this.locations.push(response.data['locations'][i]);
+                                this.dates.push(response.data['dates'][i]);
+                            }
+                        });
+
+                    this.$http.get("https://homelessfoodlocator.herokuapp.com/tier3")
+                        .then(response =>{
+                            for(var i = 0; i < response.data['names'].length; i++){
+                                this.restaurants.push(response.data['names'][i]);
+                                this.locations.push(response.data['locations'][i]);
+                                this.dates.push(response.data['dates'][i]);
+                            }
+                        });
+                }
+            },
+            created(){
+                this.getEverything();
             }
+
 
         });
     </script>

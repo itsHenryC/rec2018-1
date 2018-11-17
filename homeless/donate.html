@@ -45,7 +45,8 @@
                     data.append('0', '1');
 
                     // console.log(data);
-                    this.$http.post("http://10.17.4.95:5000/addRestaurant?name="+this.name+"&address="+this.address, data);
+
+                    this.$http.post("https://homelessfoodlocator.herokuapp.com/addRestaurant?name="+this.name+"&address="+this.address, data);
 
 
 

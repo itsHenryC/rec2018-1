@@ -47,6 +47,8 @@
 
     </div>
 
+    <br>
+
     <script>
         const vueApp = new Vue({
             el: '#app',
@@ -56,35 +58,40 @@
                 tierthree: [],
             },
             methods: {
-                add: function(){
-                    this.tierone.push("McDonalds");
-                    this.tierone.push("Ali Baba");
-                    this.tiertwo.push("Boston Pizza");
-                    this.tiertwo.push("Tim Hortons");
-                    this.tierthree.push("Pickle Barrel");
-                    this.tierthree.push("Ryerson");
 
-                },
                 addOne: function(){
-                    this.$http.get("http://10.17.4.95:5000/tier1")
+                    this.$http.get("https://homelessfoodlocator.herokuapp.com/tier1")
                         .then(response => {
-                            for(var i =0; i < response.length; i++){
+                            for(var i = 0; i < response.data['names'].length; i++){
                                 console.log(response.data['names'][i]);
                                 this.tierone.push(response.data['names'][i]);
                             }
                         });
                 },
                 addTwo: function(){
-                    this.$http.get("http://10.17.4.95:5000/tier2");
+                    this.$http.get("https://homelessfoodlocator.herokuapp.com/tier2")
+                        .then(response => {
+                            for(var i = 0; i < response.data['names'].length; i++){
+                                console.log(response.data['names'][i]);
+                                this.tiertwo.push(response.data['names'][i]);
+                            }
+                        });
                 },
                 addThree: function(){
-                    this.$http.get("http://10.17.4.95:5000/tier3");
+                    this.$http.get("https://homelessfoodlocator.herokuapp.com/tier3")
+                        .then(response => {
+                            for(var i = 0; i < response.data['names'].length; i++){
+                                console.log(response.data['names'][i]);
+                                this.tierthree.push(response.data['names'][i]);
+                            }
+                        });
                 }
 
             },
             created(){
-                this.add();
                 this.addOne();
+                this.addTwo();
+                this.addThree();
             }
 
         });
