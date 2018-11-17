@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.13/vue-resource.min.js"></script>
+
+</head>
+<body>
+
+    <button class="btn btn-primary mt-1 ml-1" style="position:fixed" onclick="window.location.href='index.html'">Back</button>
+    <div id="app">
+        <h1 class="text-center">Homeless Food Locator</h1>
+        <hr>
+        <h2 class="text-center">Socially Conscious Restaurants</h2>
+        <br>
+
+        <div class="text-center">
+            <div class="bg-warning">
+                <h3 class="text-white">Tier 1 (30+ Donations)</h3>
+                <ul class="list-group">
+                    <li v-for="restaurant in tierone" class="list-group-item list-group-item-secondary text-dark"><h5>{{ restaurant }}</h5></li>
+                </ul>
+            </div>
+
+            <br>
+
+            <div class="bg-secondary">
+                <h3 class="text-white">Tier 2 (10+ Donations)</h3>
+                <ul class="list-group">
+                    <li v-for="restaurant2 in tiertwo" class="list-group-item list-group-item-secondary text-dark"><h5>{{ restaurant2 }}</h5></li>
+                </ul>
+            </div>
+
+            <br>
+
+            <div style="background-color:#5F4C20">
+                <h3 class="text-white">Tier 3 (1+ Donations)</h3>
+                <ul class="list-group">
+                    <li v-for="restaurant3 in tierthree" class="list-group-item list-group-item-secondary text-dark"><h5>{{ restaurant3 }}</h5></li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+
+    <br>
+
+    <script>
+        const vueApp = new Vue({
+            el: '#app',
+            data: {
+                tierone: [],
+                tiertwo: [],
+                tierthree: [],
+            },
+            methods: {
+
+                addOne: function(){
+                    this.$http.get("https://homelessfoodlocator.herokuapp.com/tier1")
+                        .then(response => {
+                            for(var i = 0; i < response.data['names'].length; i++){
+                                console.log(response.data['names'][i]);
+                                this.tierone.push(response.data['names'][i]);
+                            }
+                        });
+                },
+                addTwo: function(){
+                    this.$http.get("https://homelessfoodlocator.herokuapp.com/tier2")
+                        .then(response => {
+                            for(var i = 0; i < response.data['names'].length; i++){
+                                console.log(response.data['names'][i]);
+                                this.tiertwo.push(response.data['names'][i]);
+                            }
+                        });
+                },
+                addThree: function(){
+                    this.$http.get("https://homelessfoodlocator.herokuapp.com/tier3")
+                        .then(response => {
+                            for(var i = 0; i < response.data['names'].length; i++){
+                                console.log(response.data['names'][i]);
+                                this.tierthree.push(response.data['names'][i]);
+                            }
+                        });
+                }
+
+            },
+            created(){
+                this.addOne();
+                this.addTwo();
+                this.addThree();
+            }
+
+        });
+    </script>
+
+
+
+
+
+</body>
+</html>
