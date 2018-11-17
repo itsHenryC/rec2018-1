@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.13/vue-resource.min.js"></script>
+
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<button class="btn btn-primary mt-1 ml-1" style="position:fixed" onclick="window.location.href='index.html'">Back</button>
+<div id="app">
+    <h1 class="text-center">Homeless Food Locator</h1>
+    <hr>
+    <h2 class="text-center">Socially Conscious Restaurants</h2>
+    <br>
+
+    <div class="text-center">
+        <div class="bg-warning">
+            <h3 class="text-white">Tier 1 (30+ Donations)</h3>
+            <ul class="list-group">
+                <li v-for="restaurant in tierone" class="list-group-item list-group-item-secondary text-dark"><h5>{{ restaurant }}</h5></li>
+            </ul>
+        </div>
+
+        <br>
+
+        <div class="bg-secondary">
+            <h3 class="text-white">Tier 2 (10+ Donations)</h3>
+            <ul class="list-group">
+                <li v-for="restaurant2 in tiertwo" class="list-group-item list-group-item-secondary text-dark"><h5>{{ restaurant2 }}</h5></li>
+            </ul>
+        </div>
+
+        <br>
+
+        <div style="background-color:#5F4C20">
+            <h3 class="text-white">Tier 3 (1+ Donations)</h3>
+            <ul class="list-group">
+                <li v-for="restaurant3 in tierthree" class="list-group-item list-group-item-secondary text-dark"><h5>{{ restaurant3 }}</h5></li>
+            </ul>
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+    const vueApp = new Vue({
+        el: '#app',
+        data: {
+            tierone: [],
+            tiertwo: [],
+            tierthree: [],
+        },
+        methods: {
+            add: function(){
+                this.tierone.push("McDonalds");
+                this.tierone.push("Ali Baba");
+                this.tiertwo.push("Boston Pizza");
+                this.tiertwo.push("Tim Hortons");
+                this.tierthree.push("Pickle Barrel");
+                this.tierthree.push("Ryerson");
+
+            },
+            addOne: function(){
+                this.$http.get("http://10.17.4.95:5000/tier1")
+                    .then(response => {
+                        console.log(response);
+                    });
+            },
+            addTwo: function(){
+                this.$http.get("http://10.17.4.95:5000/tier2");
+            },
+            addThree: function(){
+                this.$http.get("http://10.17.4.95:5000/tier3");
+            }
+
+        },
+        created(){
+            this.add();
+            this.addOne();
+        }
+
+    });
+</script>
+
+
+
+
+
+</body>

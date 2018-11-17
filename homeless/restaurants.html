@@ -9,22 +9,41 @@
 
 </head>
 <body>
+
     <button class="btn btn-primary mt-1 ml-1" style="position:fixed" onclick="window.location.href='index.html'">Back</button>
-    <h1 class="text-center">Homeless Food Locator</h1>
-    <hr>
     <div id="app">
-        <form @submit.prevent="submit" class="offset-3 form-group col-6">
-            <h3>Name:</h3>
-            <input v-model="user.name" type="text" placeholder="e.g. McDonalds" class="form-control">
+        <h1 class="text-center">Homeless Food Locator</h1>
+        <hr>
+        <h2 class="text-center">Socially Conscious Restaurants</h2>
+        <br>
+
+        <div class="text-center">
+            <div class="bg-warning">
+                <h3 class="text-white">Tier 1 (30+ Donations)</h3>
+                <ul class="list-group">
+                    <li v-for="restaurant in tierone" class="list-group-item list-group-item-secondary text-dark"><h5>{{ restaurant }}</h5></li>
+                </ul>
+            </div>
+
             <br>
-            <h3>Address:</h3>
-            <input v-model="user.address" type="text" placeholder="e.g. 356 Yonge St" class="form-control">
+
+            <div class="bg-secondary">
+                <h3 class="text-white">Tier 2 (10+ Donations)</h3>
+                <ul class="list-group">
+                    <li v-for="restaurant2 in tiertwo" class="list-group-item list-group-item-secondary text-dark"><h5>{{ restaurant2 }}</h5></li>
+                </ul>
+            </div>
+
             <br>
-            <h3>Portions:</h3>
-            <input v-model="user.portion" type="number" class="form-control" min="1" max="999999999" />
-            <br>
-            <button type="submit" class="btn btn-success btn-block">Submit</button>
-        </form>
+
+            <div style="background-color:#5F4C20">
+                <h3 class="text-white">Tier 3 (1+ Donations)</h3>
+                <ul class="list-group">
+                    <li v-for="restaurant3 in tierthree" class="list-group-item list-group-item-secondary text-dark"><h5>{{ restaurant3 }}</h5></li>
+                </ul>
+            </div>
+        </div>
+
 
     </div>
 
@@ -32,30 +51,48 @@
         const vueApp = new Vue({
             el: '#app',
             data: {
-                user: {
-                    name: "",
-                    address: "",
-                    portion: 1
-                }
+                tierone: [],
+                tiertwo: [],
+                tierthree: [],
             },
-            methods:{
-                submit: function(){
+            methods: {
+                add: function(){
+                    this.tierone.push("McDonalds");
+                    this.tierone.push("Ali Baba");
+                    this.tiertwo.push("Boston Pizza");
+                    this.tiertwo.push("Tim Hortons");
+                    this.tierthree.push("Pickle Barrel");
+                    this.tierthree.push("Ryerson");
 
-
-                    var data = new FormData();
-                    data.append(this.user.name, this.user.address, this.user.portion);
-
-                    this.$http.post("/hijeff", data);
-
-
-
-                    this.user.name = "";
-                    this.user.address = "";
-                    this.user.portion = 1;
+                },
+                addOne: function(){
+                    this.$http.get("http://10.17.4.95:5000/tier1")
+                        .then(response => {
+                            for(var i =0; i < response.length; i++){
+                                console.log(response.data['names'][i]);
+                                this.tierone.push(response.data['names'][i]);
+                            }
+                        });
+                },
+                addTwo: function(){
+                    this.$http.get("http://10.17.4.95:5000/tier2");
+                },
+                addThree: function(){
+                    this.$http.get("http://10.17.4.95:5000/tier3");
                 }
+
+            },
+            created(){
+                this.add();
+                this.addOne();
             }
 
-        })
+        });
     </script>
+
+
+
+
+
 </body>
 </html>

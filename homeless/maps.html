@@ -8,9 +8,31 @@
 
 </head>
 <body>
-    <button class="btn btn-primary mt-1 ml-1" style="position:fixed" onclick="window.location.href='index.html'">Back</button>
-    <h1 class="text-center">Homeless Food Locator</h1>
-    <hr>
+    <div id="app">
+        <button class="btn btn-primary mt-1 ml-1" style="position:fixed" onclick="window.location.href='index.html'">Back</button>
+        <h1 class="text-center">Homeless Food Locator</h1>
+        <hr>
+
+        <div class="container">
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-success" v-for="(restaurant,index) in restaurants">Donor Restaurant: <h5 style="display: inline">{{ restaurant }}</h5><br />Donation Location: <h5 style="display: inline">{{ locations[index] }}</h5><br />Date: <h5 style="display: inline">{{ dates[index] }}</h5></li>
+            </ul>
+        </div>
+
+    </div>
+
+
+    <script>
+        const vueApp = new Vue({
+            el: '#app',
+            data: {
+                restaurants: ['Salad King','McDonalds'],
+                locations: ['1 Yonge St', '2 Yonge St'],
+                dates: ['11/16/2018', '11/16/2018']
+            }
+
+        });
+    </script>
 
 
 </body>
